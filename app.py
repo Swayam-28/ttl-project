@@ -69,7 +69,6 @@ def status():
     <html>
     <head>
         <title>Status - CI/CD Demo</title>
-        <h1>Updated via CI/CD 🚀</h1>
         <style>
             body { font-family: Arial, sans-serif; max-width: 700px; margin: 60px auto; padding: 0 20px; background: #f5f5f5; }
             h1   { color: #2c3e50; }
@@ -78,7 +77,6 @@ def status():
         </style>
     </head>
     <body>
-        <h1>Updated via CI/CD 🚀</h1>
         <h1>Pipeline Status</h1>
         <div class="ok">&#10003; App is running</div>
         <div class="ok">&#10003; Docker container healthy</div>
