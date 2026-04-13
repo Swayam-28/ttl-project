@@ -6,5 +6,5 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./database.db:/app/instance/database.db
+      - ./instance:/app/instance
     restart: always
