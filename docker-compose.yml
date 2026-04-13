@@ -7,4 +7,5 @@ services:
       - "5000:5000"
     volumes:
       - ./instance:/app/instance
+    command: python app.py
     restart: always
