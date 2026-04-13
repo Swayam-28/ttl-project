@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CI/CD System Dashboard{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo"></div>
+                <h2>DevOps Portal</h2>
+            </div>
+            <nav class="nav-links">
+                <a href="{{ url_for('home') }}" class="{% if request.path == '/' %}active{% endif %}">Dashboard</a>
+                <a href="{{ url_for('history') }}" class="{% if request.path == '/history' %}active{% endif %}">Deployment History</a>
+                <a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">About & Stack</a>
+            </nav>
+            <div class="system-status">
+                <span class="status-indicator live"></span> Live System
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <header class="topbar">
+                <div class="breadcrumbs">Home / {% block breadcrumb %}Dashboard{% endblock %}</div>
+                {% if current_user.is_authenticated %}
+                <div class="profile-badge"><a href="{{ url_for('logout') }}" style="color: inherit; text-decoration: none;">Logout ({{ current_user.username }})</a></div>
+                {% else %}
+                <div class="profile-badge"><a href="{{ url_for('login') }}" style="color: inherit; text-decoration: none;">Login</a></div>
+                {% endif %}            </header>
+            
+            <div class="content-container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

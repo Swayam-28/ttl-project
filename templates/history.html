@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Deployment History - CI/CD Demo{% endblock %}
+{% block breadcrumb %}Deployment History{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Deployment & Event History</h3>
+        <p class="subtitle">Persisted via SQLite Volume</p>
+    </div>
+    <div class="card-body">
+        {% if history %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Event Type</th>
+                    <th>Timestamp</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history %}
+                <tr>
+                    <td>#{{ item.id }}</td>
+                    <td><span class="tag">{{ item.event_type }}</span></td>
+                    <td>{{ item.timestamp }}</td>
+                    <td><span class="status-indicator {% if item.status == 'SUCCESS' %}live{% else %}error{% endif %}"></span> {{ item.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <p>No deployment events found yet. Trigger one from the Dashboard!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

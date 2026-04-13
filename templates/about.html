@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}About - CI/CD Demo{% endblock %}
+{% block breadcrumb %}About{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Architecture Details</h3>
+    </div>
+    <div class="card-body">
+        <p>This project demonstrates a fully automated CI/CD pipeline integrated with a dynamic, stateful Flask application.</p>
+        
+        <div class="architecture-grid">
+            <div class="arch-box">
+                <h4>1. Source Control</h4>
+                <p><strong>GitHub</strong> handles version control. The main branch is protected and PRs trigger testing.</p>
+            </div>
+            <div class="arch-box">
+                <h4>2. CI/CD Runner</h4>
+                <p><strong>GitHub Actions</strong> runs `pytest` and lints the code. On success, it builds a Docker image and pushes it.</p>
+            </div>
+            <div class="arch-box">
+                <h4>3. Containerization</h4>
+                <p><strong>Docker</strong> ensures the environment is identical across develop, test, and production.</p>
+            </div>
+            <div class="arch-box">
+                <h4>4. Data Persistence</h4>
+                <p><strong>SQLite/Volumes</strong> handle data durability through container restarts, ensuring deploy logs are maintained.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

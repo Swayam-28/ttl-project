@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - CI/CD Demo{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Main Welcome Card -->
+    <div class="card col-span-2">
+        <div class="card-header">
+            <h3>Pipeline Overview</h3>
+            <span class="badge success">Healthy</span>
+        </div>
+        <div class="card-body">
+            <h1>Automated CI/CD Pipeline</h1>
+            <p>This dashboard is actively being served from a containerized environment. Any code changes pushed to the repository automatically trigger a new build, test run, and deployment.</p>
+            <div class="action-row">
+                <button id="trigger-btn" class="btn primary">Deploy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Status Metrics -->
+    <div class="card col-span-1">
+        <div class="card-header">
+            <h3>Environment metrics</h3>
+        </div>
+        <div class="card-body metrics-grid">
+            <div class="metric-box">
+                <span class="metric-label">App Status</span>
+                <span class="metric-value" id="status-val">Loading...</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-label">Framework</span>
+                <span class="metric-value">Flask 3.0.3</span>
+            </div>
+            <div class="metric-box">
+                <span class="metric-label">Total Deploys</span>
+                <span class="metric-value" id="deploy-count-val">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mock Terminal -->
+    <div class="card col-span-3 terminal-card">
+        <div class="terminal-header">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="terminal-title">docker-compose logs -f</span>
+        </div>
+        <div class="terminal-body" id="terminal-output">
+            <!-- JS inserts logs here -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% endblock %}
