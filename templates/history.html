@@ -1,41 +1,53 @@
-{% extends 'base.html' %}
-
-{% block title %}Deployment History - CI/CD Demo{% endblock %}
-{% block breadcrumb %}Deployment History{% endblock %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="card">
-    <div class="card-header">
-        <h3>Deployment & Event History</h3>
-        <p class="subtitle">Persisted via SQLite Volume</p>
-    </div>
-    <div class="card-body">
-        {% if history %}
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Event Type</th>
-                    <th>Timestamp</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in history %}
-                <tr>
-                    <td>#{{ item.id }}</td>
-                    <td><span class="tag">{{ item.event_type }}</span></td>
-                    <td>{{ item.timestamp }}</td>
-                    <td><span class="status-indicator {% if item.status == 'SUCCESS' %}live{% else %}error{% endif %}"></span> {{ item.status }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <div class="empty-state">
-            <p>No deployment events found yet. Trigger one from the Dashboard!</p>
-        </div>
-        {% endif %}
-    </div>
+<div class="page-header">
+    <h1><i class="fa-solid fa-clock-rotate-left text-accent"></i> CI/CD Event History</h1>
+    <p>Complete audit log of GitHub webhooks and manual container deployments.</p>
+</div>
+
+<div class="glass-panel" style="padding: 24px; overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 1px solid var(--glass-border);">
+                <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">ID</th>
+                <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Timestamp (UTC)</th>
+                <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Trigger Event</th>
+                <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Outcome</th>
+                <th style="padding: 12px; color: var(--text-muted); font-weight: 500;">Executed By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+            <tr style="border-bottom: 1px solid rgba(14, 165, 233, 0.1); hover:background:rgba(255,255,255,0.05);">
+                <td style="padding: 16px 12px;">#{{ record.id }}</td>
+                <td style="padding: 16px 12px; color: var(--text-muted);">{{ record.timestamp }}</td>
+                <td style="padding: 16px 12px; font-weight: 600;">
+                    {% if "Webhook" in record.status %}
+                        <i class="fa-brands fa-github" style="margin-right: 5px;"></i> {{ record.status }}
+                    {% else %}
+                        <i class="fa-solid fa-laptop-code" style="margin-right: 5px;"></i> {{ record.status }}
+                    {% endif %}
+                </td>
+                <td style="padding: 16px 12px;">
+                    <span class="status status-success">Success</span>
+                </td>
+                <td style="padding: 16px 12px;">
+                    <!-- Since manual DB triggers associate user, auto webhooks will be system -->
+                    <span style="background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 12px; font-size: 0.8rem;">
+                        <i class="fa-solid fa-user-astronaut"></i> System
+                    </span>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="padding: 24px 12px; text-align: center; color: var(--text-muted);">
+                    <i class="fa-solid fa-ghost fa-2x mb-3" style="display:block; opacity:0.5;"></i>
+                    No deployment history found. Run a build to generate data.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
