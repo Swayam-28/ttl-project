@@ -77,7 +77,6 @@ def execute_pipeline():
         
     log_queue.put("[EOF]")
 
-# --- Web Routes ---
 @app.route('/')
 @login_required
 def home():
