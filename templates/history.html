@@ -19,7 +19,7 @@
         </thead>
         <tbody>
             {% for record in history %}
-            <tr style="border-bottom: 1px solid rgba(14, 165, 233, 0.1); hover:background:rgba(255,255,255,0.05);">
+            <tr class="history-row" style="border-bottom: 1px solid rgba(14, 165, 233, 0.1);">
                 <td style="padding: 16px 12px;">#{{ record.id }}</td>
                 <td style="padding: 16px 12px; color: var(--text-muted);">{{ record.timestamp }}</td>
                 <td style="padding: 16px 12px; font-weight: 600;">
