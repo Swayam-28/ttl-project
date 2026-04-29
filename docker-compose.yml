@@ -1,11 +1,14 @@
 version: '3.8'
 
+name: ttl-project
+
 services:
   web:
     build: .
     ports:
       - "5000:5000"
     volumes:
-      - ./instance:/app/instance
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
     command: python app.py
     restart: always

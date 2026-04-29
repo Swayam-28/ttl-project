@@ -48,15 +48,14 @@ with app.app_context():
 
 # --- Background Worker for CI/CD Execution ---
 def execute_pipeline():
+    import time
     log_queue.put("Initializing automated CI/CD pipeline sequence...")
-    log_queue.put("Executing internal validation and fetching repository status...")
+    log_queue.put("Connecting to EC2 Docker Engine and fetching repository status...")
     
     try:
-        # Run real python/bash commands right here on the container to simulate a deployment validation!
         commands = [
-            ("Checking dependency versions", ["pip", "show", "flask"]),
-            ("Running integration tests", ["pytest", "test_app.py", "-v"]),
-            ("Syncing remote metadata", ["git", "remote", "-v"])
+            ("Marking directory as safe for git", ["git", "config", "--global", "--add", "safe.directory", "/app"]),
+            ("Pulling latest code from GitHub", ["git", "pull", "origin", "main"])
         ]
         
         for name, cmd in commands:
@@ -71,11 +70,20 @@ def execute_pipeline():
                 log_queue.put("[EOF]")
                 return
                 
-        log_queue.put("Pipeline Execution Passed! All origin checks successful.")
+        log_queue.put("Pipeline Execution Passed! Code updated to latest origin/main.")
+        log_queue.put("Rebuilding infrastructure in background...")
     except Exception as e:
         log_queue.put(f"Critical execution failure: {str(e)}")
+        log_queue.put("[EOF]")
+        return
         
     log_queue.put("[EOF]")
+    
+    # Give the frontend 2 seconds to receive [EOF] and close the connection smoothly
+    time.sleep(2)
+    
+    # Fire the actual docker compose command in the background to rebuild and restart the server
+    subprocess.Popen(["docker", "compose", "up", "-d", "--build"])
 
 @app.route('/')
 @login_required
