@@ -71,19 +71,13 @@ def execute_pipeline():
                 return
                 
         log_queue.put("Pipeline Execution Passed! Code updated to latest origin/main.")
-        log_queue.put("Rebuilding infrastructure in background...")
+        log_queue.put("Server automatically applying new code via live-reload.")
     except Exception as e:
         log_queue.put(f"Critical execution failure: {str(e)}")
         log_queue.put("[EOF]")
         return
         
     log_queue.put("[EOF]")
-    
-    # Give the frontend 2 seconds to receive [EOF] and close the connection smoothly
-    time.sleep(2)
-    
-    # Fire the actual docker compose command in the background to rebuild and restart the server
-    subprocess.Popen(["docker", "compose", "-p", "ttl-project", "up", "-d", "--build"])
 
 @app.route('/')
 @login_required
