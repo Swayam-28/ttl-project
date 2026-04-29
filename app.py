@@ -83,7 +83,7 @@ def execute_pipeline():
     time.sleep(2)
     
     # Fire the actual docker compose command in the background to rebuild and restart the server
-    subprocess.Popen(["docker", "compose", "up", "-d", "--build"])
+    subprocess.Popen(["docker", "compose", "-p", "ttl-project", "up", "-d", "--build"])
 
 @app.route('/')
 @login_required
