@@ -62,7 +62,8 @@ def execute_pipeline():
     try:
         commands = [
             ("Marking directory as safe for git", ["git", "config", "--global", "--add", "safe.directory", "/app"]),
-            ("Pulling latest code from GitHub", ["git", "pull", "origin", "main"])
+            ("Pulling latest code from GitHub", ["git", "pull", "origin", "main"]),
+            ("Reloading application server (Graceful Worker Restart)", ["kill", "-HUP", "1"])
         ]
         
         for name, cmd in commands:
