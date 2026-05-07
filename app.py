@@ -28,10 +28,17 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(120), nullable=False)
 
+    def __init__(self, username, password_hash):
+        self.username = username
+        self.password_hash = password_hash
+
 class DeploymentHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.String(200), nullable=False)
+
+    def __init__(self, status):
+        self.status = status
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -48,7 +55,6 @@ with app.app_context():
 
 # --- Background Worker for CI/CD Execution ---
 def execute_pipeline():
-    import time
     log_queue.put("Initializing automated CI/CD pipeline sequence...")
     log_queue.put("Connecting to EC2 Docker Engine and fetching repository status...")
     
