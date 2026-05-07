@@ -14,6 +14,7 @@ app.config['SECRET_KEY'] = 'A_VERY_SECRET_KEY_FOR_DEMO'
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
